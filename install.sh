@@ -13,7 +13,7 @@ TOKEN='';
 CLIENT='';
 ERROR='';
 MSG='';
-INSTALL_DIR='/var/www/antares';
+INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
 HOST='';
 
@@ -163,7 +163,6 @@ verify_dependencies()
     chmod -R 777 "$INSTALL_DIR"/storage
     chmod -R 777 "$INSTALL_DIR"/bootstrap
     
-
     
     chown -R www-data:www-data "$INSTALL_DIR"/public
     chown -R www-data:www-data "$INSTALL_DIR"/storage
@@ -173,13 +172,13 @@ verify_dependencies()
 
 
     # Clear the compiled classes
-    php "$INSTALL_DIR"/artisan clear-compiled
+    #php "$INSTALL_DIR"/artisan clear-compiled
 
     # Optimizing the autoloader
-    php "$INSTALL_DIR"/console optimize
+    #php "$INSTALL_DIR"/console optimize
 
     # Clear cache
-    php "$INSTALL_DIR"/console cache:clear
+    #php "$INSTALL_DIR"/console cache:clear
 }
 
 # Exit script, if not run from sudo
@@ -208,7 +207,7 @@ echo "#                       Composer install                        #";
 echo "#################################################################";
 echo -e "$default_color";
 
-#composer_install
+composer_install
 
 configure_database
 

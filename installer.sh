@@ -66,7 +66,7 @@ download_package()
     # Downloads the archive
     $(cd /var/www && curl -o master.zip -LOk --request GET ''$INSTALLER_URL'');
 
-    if [ ! -f /var/www/html/master.zip ]; then
+    if [ ! -f /var/www/master.zip ]; then
             echo -e "$red_color";
                 echo "ERROR OCCURED!"
                 echo "-----------------------------------"
@@ -133,21 +133,13 @@ echo "Please wait, package is unpacking...";
 echo -e "$default_color";
 
 # Unpack the files
-unzip -o /var/www/html/master.zip -d /var/www/html/antares > /dev/null 2>&1
+unzip -o /var/www/master.zip -d /var/www > /dev/null 2>&1
 
 # Getting server hostname
 get_hostname
 
 # run.sh
-sudo bash /var/www/html/antares/installer-master/run.sh
-
-if [ -f "/etc/apache2/sites-available/antares.conf" ]
-    then
-        URL="http://YOUR_IP_ADDRESS/antares/install (http://$HOST/antares/install)";
-    else
-        URL="http://YOUR_IP_ADDRESS/install (http://$HOST/install)";
-fi;
-
+sudo bash /var/www/installer-master/run.sh
 
 # install.sh
-sudo bash /var/www/html/antares/installer-master/install.sh
+sudo bash /var/www/installer-master/install.sh
