@@ -1,0 +1,19 @@
+Alias /antares /var/www/html/public
+
+<Directory /var/www/html/public>
+	Options +FollowSymLinks
+	AllowOverride All
+	
+	<IfVersion >= 2.3>
+		Require all granted
+	</IfVersion> 
+	<IfVersion < 2.3>
+		Order Allow,Deny
+		Allow from all
+	</IfVersion>
+
+	AddType application/x-httpd-php .php
+        
+        # If you set below to local, the debug mode will be automatically enabled
+	SetEnv DEVELOPMENT_MODE production
+</Directory>
