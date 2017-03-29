@@ -53,7 +53,7 @@ get_hostname()
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Update APT Repository                        #";
+echo "#                  Update APT Repository (1/10)                 #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -70,7 +70,7 @@ declare -a requiredPackages=(
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Installing required Packages                 #";
+echo "#              Installing required Packages (2/10)              #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -87,7 +87,7 @@ done
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Download Antares Package                     #";
+echo "#               Download Antares Package (3/10)                 #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -95,7 +95,7 @@ download_package
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Unpack Antares Package                      #";
+echo "#                Unpack Antares Package (4/10)                  #";
 echo "#################################################################";
 echo -e "$default_color";
 

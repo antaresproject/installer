@@ -37,7 +37,7 @@ fi;
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#         Installing software-properties-common                 #";
+echo "#         Installing software-properties-common (5/10)          #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -46,7 +46,7 @@ sudo add-apt-repository ppa:ondrej/php -y &>>$LOGFILE
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Update APT Repository                        #";
+echo "#                Update APT Repository (6/10)                   #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -54,7 +54,7 @@ sudo apt-get update &>>$LOGFILE
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                 Installing system environment                 #";
+echo "#             Installing System Environment (7/10)              #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -87,14 +87,14 @@ declare -a requiredPackages=(
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Installing required Packages                 #";
+echo "#               Installing Required Packages (8/10)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
 if [ $(dpkg-query -W -f='${Status}' "mysql-server" 2>/dev/null | grep -c "ok installed") -eq 0 ];
    then
    echo -e "MySQL not found! Installing now. $red_color Please remember the password you'll provide while configuration! $default_color";
-   sudo apt-get -y install mysql-server &>>$LOGFILE;
+   sudo apt-get -y install mysql-server;
 fi
 
 for package in "${requiredPackages[@]}"
@@ -111,7 +111,7 @@ sudo service apache2 restart &>>$LOGFILE
 # Install composer
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                     Installing composer                       #";
+echo "#                  Installing Composer (8/10)                   #";
 echo "#################################################################";
 echo -e "$default_color";
 sudo  curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer &>>$LOGFILE

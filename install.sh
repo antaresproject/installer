@@ -136,7 +136,7 @@ verify_dependencies()
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#             Download Antares Package From Github              #";
+echo "#           Download Antares Package From Github (9/10)         #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -145,7 +145,7 @@ download_package
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                       Composer install                        #";
+echo "#             Composer Install And Database (10/10)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -155,18 +155,13 @@ configure_database
 
 create_database
 
-echo -e "$green_color";
-echo "#################################################################";
-echo "#                     Veryfing dependencies                     #";
-echo "#################################################################";
-echo -e "$default_color";
-
 verify_dependencies
 
 echo -e "$green_color";
 echo "#################################################################";
 echo -e "Antares Project has been successfully installed!" >&2;
 echo -e "Please now open your browser and point to: " >&2;
+echo -e "Installation details can be found at /var/www/install-log.log" >&2;
 echo -e "http://YOUR_IP_ADDRESS/install";
 echo "#################################################################";
 echo -e "$default_color";
