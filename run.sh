@@ -37,7 +37,7 @@ fi;
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#         Installing software-properties-common (5/10)          #";
+echo "#         Installing software-properties-common (5/11)          #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -46,7 +46,7 @@ sudo add-apt-repository ppa:ondrej/php -y &>>$LOGFILE
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                Update APT Repository (6/10)                   #";
+echo "#                Update APT Repository (6/11)                   #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -54,7 +54,7 @@ sudo apt-get update &>>$LOGFILE
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#             Installing System Environment (7/10)              #";
+echo "#             Installing System Environment (7/11)              #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -87,7 +87,7 @@ declare -a requiredPackages=(
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#               Installing Required Packages (8/10)             #";
+echo "#               Installing Required Packages (8/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -111,7 +111,7 @@ sudo service apache2 restart &>>$LOGFILE
 # Install composer
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Installing Composer (8/10)                   #";
+echo "#                  Installing Composer (9/11)                   #";
 echo "#################################################################";
 echo -e "$default_color";
 sudo  curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer &>>$LOGFILE

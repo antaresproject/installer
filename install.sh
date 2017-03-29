@@ -25,6 +25,7 @@ download_package()
     echo -e "$yellow_color";
     echo "Please wait, package is downloading...";
     echo -e "$default_color";    
+    sudo rm -rf "$INSTALL_DIR"
     sudo git clone "$PACKAGE_URL" -b "$VERSION" "$INSTALL_DIR" &>>$LOGFILE
 }
 
@@ -136,16 +137,17 @@ verify_dependencies()
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#           Download Antares Package From Github (9/10)         #";
+echo "#          Download Antares Package From Github (10/11)         #";
 echo "#################################################################";
 echo -e "$default_color";
 
 download_package
 
 
+
 echo -e "$green_color";
 echo "#################################################################";
-echo "#             Composer Install And Database (10/10)             #";
+echo "#             Composer Install And Database (11/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
