@@ -120,7 +120,7 @@ create_database()
     echo -e "$yellow_color";
     echo "Configure Antares database...";
     echo -e "$default_color";
-    mysql --host=$DB_HOST --user=$DB_USERNAME --password=$DB_PASSWORD -e 'CREATE DATABASE '$DB_NAME'';    
+    mysql --host=$DB_HOST --user=$DB_USERNAME --password=$DB_PASSWORD -e 'CREATE DATABASE '$DB_NAME'';        
     echo -e "$green_color";
     echo "Database has been successfully configured...";
     echo -e "$default_color";
@@ -133,6 +133,10 @@ verify_dependencies()
     chmod -R 777 "$INSTALL_DIR"/storage
     chmod -R 777 "$INSTALL_DIR"/bootstrap
     chown -R www-data:www-data "$INSTALL_DIR"
+    sudo sed -i 's/DB_HOST=127.0.0.1/DB_HOST='$DB_HOST'/g' "$INSTALL_DIR"/.env
+    sudo sed -i 's/DB_DATABASE=foo/DB_DATABASE='$DB_NAME'/g' "$INSTALL_DIR"/.env
+    sudo sed -i 's/DB_USERNAME=root/DB_USERNAME='$DB_USERNAME'/g' "$INSTALL_DIR"/.env
+    sudo sed -i 's/DB_PASSWORD=/DB_PASSWORD='$DB_PASSWORD'/g' "$INSTALL_DIR"/.env
 }
 
 echo -e "$green_color";
@@ -141,7 +145,7 @@ echo "#          Download Antares Package From Github (10/11)         #";
 echo "#################################################################";
 echo -e "$default_color";
 
-download_package
+#download_package
 
 
 
@@ -151,7 +155,7 @@ echo "#             Composer Install And Database (11/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
-composer_install
+#composer_install
 
 configure_database
 
