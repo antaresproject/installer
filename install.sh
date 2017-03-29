@@ -145,7 +145,7 @@ echo "#          Download Antares Package From Github (10/11)         #";
 echo "#################################################################";
 echo -e "$default_color";
 
-#download_package
+download_package
 
 
 
@@ -155,7 +155,7 @@ echo "#             Composer Install And Database (11/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
-#composer_install
+composer_install
 
 configure_database
 
