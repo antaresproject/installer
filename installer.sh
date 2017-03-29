@@ -6,12 +6,9 @@ green_color='\e[32m'
 yellow_color='\e[33m'
 bold_font='\033[1m'
 underline_font='\033[4m'
-
-
 INSTALLER_URL='https://github.com/antaresproject/installer/archive/master.zip'
 HOST='';
 LOGFILE="/var/www/install-log.log"
-source functions.sh
 
 download_package()
 {
@@ -27,7 +24,32 @@ download_package()
                 exit;
         fi
 }
+get_hostname()
+{
+  echo -n "Getting the hostname of this machine..."
 
+  HOST=`hostname -f 2>/dev/null`
+  if [ "$host" = "" ]; then
+    HOST=`hostname 2>/dev/null`
+    if [ "$host" = "" ]; then
+      HOST=$HOSTNAME
+      if [ "$host" = "" ]; then
+        HOST=$(curl -s icanhazip.com)
+      fi
+    fi
+  fi
+
+  if [ "$HOST" = "" -o "$HOST" = "(none)" ]; then
+    echo "Unable to determine the hostname of your system!"
+    echo
+    echo "Please consult the documentation for your system. The files you need "
+    echo "to modify to do this vary between Linux distribution and version."
+    echo
+    exit 1
+  fi
+
+  echo -n "Found hostname: $HOST"
+}
 
 echo -e "$green_color";
 echo "#################################################################";

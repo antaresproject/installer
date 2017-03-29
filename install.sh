@@ -11,12 +11,14 @@ PACKAGE_URL='https://github.com/antaresproject/project.git'
 VERSION='0.9.2';
 INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
-HOST='';
 LOGFILE="/var/www/install-log.log"
 
 # Function Definitions
 
-source functions.sh
+random-string()
+{
+    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
+}
 
 download_package()
 {
