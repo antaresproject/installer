@@ -9,45 +9,21 @@ bold_font='\033[1m'
 underline_font='\033[4m'
 PACKAGE_URL='https://github.com/antaresproject/project.git'
 VERSION='0.9.2';
-TOKEN='';
-CLIENT='';
-ERROR='';
-MSG='';
 INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
 HOST='';
+LOGFILE="/var/www/install-log.log"
 
 # Function Definitions
 
-get_hostname ()
-{
-  HOST=`hostname -f 2>/dev/null`
-  if [ "$host" = "" ]; then
-    HOST=`hostname 2>/dev/null`
-    if [ "$host" = "" ]; then
-      HOST=$HOSTNAME
-      if [ "$host" = "" ]; then
-        HOST=$(curl -s icanhazip.com)
-      fi
-    fi
-  fi
-
-  if [ "$HOST" = "" -o "$HOST" = "(none)" ]; then
-    echo "Unable to determine the hostname of your system!"
-    echo
-    echo "Please consult the documentation for your system. The files you need "
-    echo "to modify to do this vary between Linux distribution and version."
-    echo
-    exit 1
-  fi
-}
+source functions.sh
 
 download_package()
 {
     echo -e "$yellow_color";
     echo "Please wait, package is downloading...";
     echo -e "$default_color";    
-    git clone "$PACKAGE_URL" -b "$VERSION" "$INSTALL_DIR"    
+    sudo git clone "$PACKAGE_URL" -b "$VERSION" "$INSTALL_DIR" &>>$LOGFILE
 }
 
 composer_install()
@@ -55,7 +31,7 @@ composer_install()
     echo -e "$yellow_color";
     echo "Please wait, running composer install...";
     echo -e "$default_color";
-    cd $INSTALL_DIR && composer install
+    cd $INSTALL_DIR && composer install --no-interaction --no-suggest --no-progress 
 }
 
 configure_database()
@@ -141,19 +117,10 @@ create_database()
     echo -e "$yellow_color";
     echo "Configure Antares database...";
     echo -e "$default_color";
-
-    mysql --host=$DB_HOST --user=$DB_USERNAME --password=$DB_PASSWORD -e 'CREATE DATABASE '$DB_NAME'';
-    touch "$INSTALL_DIR"/app/config/database.php
-    sed -e 's/{{dbHost}}/'$DB_HOST'/g' -e 's/{{dbName}}/'$DB_NAME'/g' -e 's/{{dbUser}}/'$DB_USERNAME'/g' -e 's/{{dbPassword}}/'$DB_PASSWORD'/g' -e "$INSTALL_DIR"/storage/database.php.example > "$INSTALL_DIR"/app/config/database.php
-
+    mysql --host=$DB_HOST --user=$DB_USERNAME --password=$DB_PASSWORD -e 'CREATE DATABASE '$DB_NAME'';    
     echo -e "$green_color";
     echo "Database has been successfully configured...";
     echo -e "$default_color";
-}
-
-random-string()
-{
-    cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w ${1:-32} | head -n 1
 }
 
 verify_dependencies()
@@ -162,39 +129,12 @@ verify_dependencies()
     chmod 777 "$INSTALL_DIR"/public
     chmod -R 777 "$INSTALL_DIR"/storage
     chmod -R 777 "$INSTALL_DIR"/bootstrap
-    
-    
-    chown -R www-data:www-data "$INSTALL_DIR"/public
-    chown -R www-data:www-data "$INSTALL_DIR"/storage
-    chown -R www-data:www-data "$INSTALL_DIR"/bootstrap
-    chown -R www-data:www-data "$INSTALL_DIR"/builds
-    chown -R www-data:www-data "$INSTALL_DIR"/build
-
-
-    # Clear the compiled classes
-    #php "$INSTALL_DIR"/artisan clear-compiled
-
-    # Optimizing the autoloader
-    #php "$INSTALL_DIR"/console optimize
-
-    # Clear cache
-    #php "$INSTALL_DIR"/console cache:clear
+    chown -R www-data:www-data "$INSTALL_DIR"
 }
-
-# Exit script, if not run from sudo
-if [ "$EUID" -ne 0 ]
-  then
-  echo -e "$red_color";
-  echo "Please run as root...";
-  echo -e "$default_color";
-  exit;
-fi;
-
-
 
 echo -e "$green_color";
 echo "#################################################################";
-echo "#                  Download Antares Package                     #";
+echo "#             Download Antares Package From Github              #";
 echo "#################################################################";
 echo -e "$default_color";
 
@@ -213,10 +153,13 @@ configure_database
 
 create_database
 
+echo -e "$green_color";
+echo "#################################################################";
+echo "#                     Veryfing dependencies                     #";
+echo "#################################################################";
+echo -e "$default_color";
+
 verify_dependencies
-
-get_hostname
-
 
 echo -e "$green_color";
 echo "#################################################################";
