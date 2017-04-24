@@ -20,7 +20,10 @@ else
 fi
 ANTARES_DIR=$LOCATION;
 INSTALL_DIR=$LOCATION;
-LOGFILE="$LOCATION/install-log.log"
+# Assign the current dir to variable
+current_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+LOGFILE="$current_dir/install-log.log"
 
 # Function Definitions
 
@@ -148,6 +151,8 @@ verify_dependencies()
     sudo sed -i 's/DB_PASSWORD=/DB_PASSWORD='$DB_PASSWORD'/g' "$INSTALL_DIR"/.env
 }
 
+
+
 echo -e "$green_color";
 echo "#################################################################";
 echo "#          Download Antares Package From Github (10/11)         #";
@@ -155,7 +160,6 @@ echo "#################################################################";
 echo -e "$default_color";
 
 download_package
-
 
 
 echo -e "$green_color";

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+
 if [ ! -z $1 ] 
 then 
     LOCATION=$1
@@ -7,11 +8,17 @@ else
     LOCATION=/var/www/html
 fi
 
-LOGFILE="$LOCATION/install-log.log"
+# Assign the current dir to variable
+current_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+
+TEMP=$current_dir
+LOGFILE="$TEMP/install-log.log"
+
 
 # Function Definitions
 
 echoerror() { echo "$@" 1>&2; }
+
 
 # Defines colors
 
@@ -25,14 +32,6 @@ underline_font='\033[4m'
 original_username=`who am i | awk '{print $1}'`
 original_homedir=$( getent passwd "$original_username" | cut -d: -f6 )
 
-# Assign the current dir to variable
-current_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-
-if [[ $current_dir != "$LOCATION/installer-master" ]]
-then
-    echo "$red_colorPlease place the installer files into the $LOCATION/installer-master directory$default_color"
-    exit;
-fi;
 
 echo -e "$green_color";
 echo "#################################################################";
@@ -105,6 +104,7 @@ do
     fi;
 done
 
+
 sudo service apache2 restart &>>$LOGFILE 
 
 # Install composer
@@ -121,17 +121,18 @@ sudo  curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us
 cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.orginal;
 # Make the Antares default site
 
-echo '<VirtualHost *:80>
+"<VirtualHost *:80>
         ServerAdmin youremail@domain.net
-        DocumentRoot "$LOCATION"/public
+        DocumentRoot $LOCATION/public
         SetEnv DEVELOPMENT_MODE production
-        <Directory "$LOCATION"public>
+        <Directory $LOCATION/public>
                 Require all granted
                 AllowOverride All
         </Directory>
         ErrorLog ${APACHE_LOG_DIR}/error.log
         CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
+</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
+
 
 # Enable the Apache modules
 a2enmod rewrite  &>>$LOGFILE

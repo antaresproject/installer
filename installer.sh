@@ -15,15 +15,15 @@ then
 else
     LOCATION=/var/www/html
 fi
-
-LOGFILE="$LOCATION/install-log.log"
+TEMP=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+LOGFILE="$TEMP/install-log.log"
 
 download_package()
 {
     # Downloads the archive
-    $(cd "$LOCATION" && curl -o master.zip -LOk --request GET ''$INSTALLER_URL'');
+    $(cd "$TEMP" && curl --insecure -o master.zip -LOk --request GET ''$INSTALLER_URL'');
 
-    if [ ! -f "$LOCATION"master.zip ]; then
+    if [ ! -f "$TEMP"/master.zip ]; then
             echo -e "$red_color";
                 echo "ERROR OCCURED!"
                 echo "-----------------------------------"
@@ -32,32 +32,7 @@ download_package()
                 exit;
         fi
 }
-get_hostname()
-{
-  echo -n "Getting the hostname of this machine..."
 
-  HOST=`hostname -f 2>/dev/null`
-  if [ "$host" = "" ]; then
-    HOST=`hostname 2>/dev/null`
-    if [ "$host" = "" ]; then
-      HOST=$HOSTNAME
-      if [ "$host" = "" ]; then
-        HOST=$(curl -s icanhazip.com)
-      fi
-    fi
-  fi
-
-  if [ "$HOST" = "" -o "$HOST" = "(none)" ]; then
-    echo "Unable to determine the hostname of your system!"
-    echo
-    echo "Please consult the documentation for your system. The files you need "
-    echo "to modify to do this vary between Linux distribution and version."
-    echo
-    exit 1
-  fi
-
-  echo -n "Found hostname: $HOST"
-}
 
 echo -e "$green_color";
 echo "#################################################################";
@@ -112,14 +87,13 @@ echo -e "$yellow_color";
 echo "Please wait, package is unpacking...";
 echo -e "$default_color";
 
-# Unpack the files
-unzip -o "$LOCATION"master.zip -d "$LOCATION" > /dev/null 2>&1
 
-# Getting server hostname
-get_hostname
+# Unpack the files
+unzip -o "$TEMP"/master.zip -d "$TEMP" > /dev/null 2>&1
 
 # run.sh
-sudo bash $LOCATION/installer-master/run.sh $LOCATION
+#sudo bash $TEMP/installer-master/run.sh $LOCATION
 
 # install.sh
-sudo bash $LOCATION/installer-master/install.sh $LOCATION
+#sudo bash $TEMP/installer-master/install.sh $LOCATION
+
