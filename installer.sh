@@ -8,14 +8,22 @@ bold_font='\033[1m'
 underline_font='\033[4m'
 INSTALLER_URL='https://github.com/antaresproject/installer/archive/master.zip'
 HOST='';
-LOGFILE="/var/www/install-log.log"
+
+if [ ! -z $1 ] 
+then 
+    LOCATION=$1
+else
+    LOCATION=/var/www/html
+fi
+
+LOGFILE="$LOCATION/install-log.log"
 
 download_package()
 {
     # Downloads the archive
-    $(cd /var/www && curl -o master.zip -LOk --request GET ''$INSTALLER_URL'');
+    $(cd "$LOCATION" && curl -o master.zip -LOk --request GET ''$INSTALLER_URL'');
 
-    if [ ! -f /var/www/master.zip ]; then
+    if [ ! -f "$LOCATION"master.zip ]; then
             echo -e "$red_color";
                 echo "ERROR OCCURED!"
                 echo "-----------------------------------"
@@ -105,13 +113,13 @@ echo "Please wait, package is unpacking...";
 echo -e "$default_color";
 
 # Unpack the files
-unzip -o /var/www/master.zip -d /var/www > /dev/null 2>&1
+unzip -o "$LOCATION"master.zip -d "$LOCATION" > /dev/null 2>&1
 
 # Getting server hostname
 get_hostname
 
 # run.sh
-sudo bash /var/www/installer-master/run.sh
+sudo bash $LOCATION/installer-master/run.sh $LOCATION
 
 # install.sh
-sudo bash /var/www/installer-master/install.sh
+sudo bash $LOCATION/installer-master/install.sh $LOCATION

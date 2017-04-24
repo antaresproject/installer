@@ -11,7 +11,16 @@ PACKAGE_URL='https://github.com/antaresproject/project.git'
 VERSION='0.9.2';
 INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
-LOGFILE="/var/www/install-log.log"
+
+if [ ! -z $1 ] 
+then 
+    LOCATION=$1
+else
+    LOCATION=/var/www/html
+fi
+ANTARES_DIR=$LOCATION;
+INSTALL_DIR=$LOCATION;
+LOGFILE="$LOCATION/install-log.log"
 
 # Function Definitions
 
@@ -167,7 +176,7 @@ echo -e "$green_color";
 echo "#################################################################";
 echo -e "Antares Project has been successfully installed!" >&2;
 echo -e "Please now open your browser and point to: " >&2;
-echo -e "Installation details can be found at /var/www/install-log.log" >&2;
+echo -e "Installation details can be found at $LOGFILE" >&2;
 echo -e "http://YOUR_IP_ADDRESS/install";
 echo "#################################################################";
 echo -e "$default_color";

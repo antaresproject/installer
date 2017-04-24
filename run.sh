@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 
-# Os and architecture detection
-OS=$(lsb_release -si)
-ARCH=$(uname -m | sed 's/x86_//;s/i[3-6]86/32/')
-VER=$(lsb_release -sr)
-LOGFILE="/var/www/install-log.log"
+if [ ! -z $1 ] 
+then 
+    LOCATION=$1
+else
+    LOCATION=/var/www/html
+fi
+
+LOGFILE="$LOCATION/install-log.log"
 
 # Function Definitions
 
@@ -20,20 +23,16 @@ underline_font='\033[4m'
 
 # Gets original user
 original_username=`who am i | awk '{print $1}'`
-
 original_homedir=$( getent passwd "$original_username" | cut -d: -f6 )
-
-
 
 # Assign the current dir to variable
 current_dir=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
-if [[ $current_dir != "/var/www/installer-master" ]]
+if [[ $current_dir != "$LOCATION/installer-master" ]]
 then
-    echo "$red_colorPlease place the installer files into the /var/www/installer-master directory$default_color"
+    echo "$red_colorPlease place the installer files into the $LOCATION/installer-master directory$default_color"
     exit;
 fi;
-
 
 echo -e "$green_color";
 echo "#################################################################";
@@ -121,7 +120,18 @@ sudo  curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us
 # Virtual Host Generation
 cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.orginal;
 # Make the Antares default site
-cp -a /var/www/installer-master/conf/samples/antares.apache.vhost.sample /etc/apache2/sites-available/000-default.conf
+
+echo '<VirtualHost *:80>
+        ServerAdmin youremail@domain.net
+        DocumentRoot "$LOCATION"/public
+        SetEnv DEVELOPMENT_MODE production
+        <Directory "$LOCATION"public>
+                Require all granted
+                AllowOverride All
+        </Directory>
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>' > /etc/apache2/sites-available/000-default.conf
 
 # Enable the Apache modules
 a2enmod rewrite  &>>$LOGFILE
