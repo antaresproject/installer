@@ -39,7 +39,7 @@ echo "#         Installing software-properties-common (5/11)          #";
 echo "#################################################################";
 echo -e "$default_color";
 
-sudo apt-get install software-properties-common -y &>>$LOGFILE
+sudo apt-get install software-properties-common -y --allow-unauthenticated &>>$LOGFILE
 sudo add-apt-repository ppa:ondrej/php -y &>>$LOGFILE
 
 echo -e "$green_color";
@@ -48,7 +48,7 @@ echo "#                Update APT Repository (6/11)                   #";
 echo "#################################################################";
 echo -e "$default_color";
 
-sudo apt-get update &>>$LOGFILE
+sudo apt-get update --allow-unauthenticated &>>$LOGFILE
 
 echo -e "$green_color";
 echo "#################################################################";
@@ -92,7 +92,7 @@ echo -e "$default_color";
 if [ $(dpkg-query -W -f='${Status}' "mysql-server" 2>/dev/null | grep -c "ok installed") -eq 0 ];
    then
    echo -e "MySQL not found! Installing now. $red_color Please remember the password you'll provide while configuration! $default_color";
-   sudo apt-get -y install mysql-server;
+   sudo apt-get -y install --allow-unauthenticated mysql-server;
 fi
 
 for package in "${requiredPackages[@]}"
@@ -100,7 +100,7 @@ do
     if [ $(dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
         echo -e "- $red_color Install package: $package $default_color";
-        sudo apt-get -y -f install "$package" &>>$LOGFILE
+        sudo apt-get -y -f --allow-unauthenticated install "$package" &>>$LOGFILE
     fi;
 done
 
@@ -121,7 +121,7 @@ sudo  curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/us
 cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.orginal;
 # Make the Antares default site
 
-"<VirtualHost *:80>
+echo "<VirtualHost *:80>
         ServerAdmin youremail@domain.net
         DocumentRoot $LOCATION/public
         SetEnv DEVELOPMENT_MODE production

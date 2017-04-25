@@ -40,7 +40,7 @@ echo "#                  Update APT Repository (1/11)                 #";
 echo "#################################################################";
 echo -e "$default_color";
 
-apt-get update &>$LOGFILE
+apt-get update --allow-unauthenticated &>$LOGFILE
 
 # Declare an array with required packages
 declare -a requiredPackages=(
@@ -63,7 +63,7 @@ do
     if [ $(dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -c "ok installed") -eq 0 ];
     then
         echo -e "- $red_color Install package: $package $default_color";
-        apt-get -y install "$package" &>$LOGFILE
+        apt-get -y install --allow-unauthenticated "$package" &>$LOGFILE
     fi;
 done
 
@@ -92,8 +92,8 @@ echo -e "$default_color";
 unzip -o "$TEMP"/master.zip -d "$TEMP" > /dev/null 2>&1
 
 # run.sh
-#sudo bash $TEMP/installer-master/run.sh $LOCATION
+sudo bash $TEMP/installer-master/run.sh $LOCATION
 
 # install.sh
-#sudo bash $TEMP/installer-master/install.sh $LOCATION
+sudo bash $TEMP/installer-master/install.sh $LOCATION
 
