@@ -46,7 +46,7 @@ composer_install()
     echo -e "$yellow_color";
     echo "Please wait, running composer install...";
     echo -e "$default_color";
-    cd "$INSTALL_DIR../" && composer create-project antaresproject/project html 0.9.2.x-dev
+    cd "$INSTALL_DIR/../" && composer create-project antaresproject/project html 0.9.2.x-dev
 }
 
 configure_database()
