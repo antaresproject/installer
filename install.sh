@@ -37,7 +37,7 @@ download_package()
     echo "Please wait, creating project...";
     echo -e "$default_color";    
     sudo rm -rf "$INSTALL_DIR"
-    sudo composer create-project antaresproject/project "$INSTALL_DIR" "$VERSION" &>>$LOGFILE
+    sudo composer create-project antaresproject/project "$INSTALL_DIR" "$VERSION"
 }
 
 
