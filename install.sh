@@ -7,8 +7,7 @@ green_color='\e[32m'
 yellow_color='\e[33m'
 bold_font='\033[1m'
 underline_font='\033[4m'
-PACKAGE_URL='https://github.com/antaresproject/project.git'
-VERSION='0.9.2';
+VERSION='0.9.2.x-dev';
 INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
 
@@ -35,19 +34,12 @@ random-string()
 download_package()
 {
     echo -e "$yellow_color";
-    echo "Please wait, package is downloading...";
+    echo "Please wait, creating project...";
     echo -e "$default_color";    
     sudo rm -rf "$INSTALL_DIR"
-    sudo git clone "$PACKAGE_URL" -b "$VERSION" "$INSTALL_DIR" &>>$LOGFILE
+    sudo composer create-project antaresproject/project "$INSTALL_DIR" "$VERSION" &>>$LOGFILE
 }
 
-composer_install()
-{
-    echo -e "$yellow_color";
-    echo "Please wait, running composer install...";
-    echo -e "$default_color";
-    cd "$INSTALL_DIR/../" && composer create-project antaresproject/project html 0.9.2.x-dev
-}
 
 configure_database()
 {
@@ -167,8 +159,6 @@ echo "#################################################################";
 echo "#             Composer Install And Database (11/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
-
-composer_install
 
 configure_database
 
