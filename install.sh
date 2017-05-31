@@ -7,7 +7,7 @@ green_color='\e[32m'
 yellow_color='\e[33m'
 bold_font='\033[1m'
 underline_font='\033[4m'
-VERSION='0.9.2.x-dev';
+VERSION='dev-master';
 INSTALL_DIR='/var/www/html';
 ANTARES_DIR='/var/www/html'
 
