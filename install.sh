@@ -37,7 +37,7 @@ download_package()
     echo "Please wait, creating project...";
     echo -e "$default_color";    
     sudo rm -rf "$INSTALL_DIR"
-    sudo composer create-project antaresproject/project "$INSTALL_DIR" "$VERSION"
+    sudo composer create-project antaresproject/project "$INSTALL_DIR" "$VERSION" --keep-vcs
 }
 
 
@@ -133,7 +133,7 @@ create_database()
 verify_dependencies()
 {
     # Permissions
-    chmod 777 "$INSTALL_DIR"/public
+    chmod -R 777 "$INSTALL_DIR"/public
     chmod -R 777 "$INSTALL_DIR"/storage
     chmod -R 777 "$INSTALL_DIR"/bootstrap
     chown -R www-data:www-data "$INSTALL_DIR"
