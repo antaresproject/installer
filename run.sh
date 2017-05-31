@@ -123,9 +123,9 @@ cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/00
 
 echo "<VirtualHost *:80>
         ServerAdmin youremail@domain.net
-        DocumentRoot $LOCATION/public
+        DocumentRoot $LOCATION
         SetEnv DEVELOPMENT_MODE production
-        <Directory $LOCATION/public>
+        <Directory $LOCATION>
                 Require all granted
                 AllowOverride All
         </Directory>
