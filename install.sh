@@ -52,8 +52,7 @@ configure_database()
     DB_USERNAME=$2;
     DB_PASSWORD=$3;
     DB_NAME=$4;
-    DB_PREFIX=$5;
-    ERROR=$6;
+    ERROR=$5;
 
     dialog --backtitle "Antares Project Configuration" --title "Database Configuration" \
     --form "- Use [tab] to switch between buttons\n
@@ -160,7 +159,7 @@ echo "#             Composer Install And Database (11/11)             #";
 echo "#################################################################";
 echo -e "$default_color";
 
-configure_database
+configure_database "127.0.0.1" "" "" "antares"
 
 create_database
 
